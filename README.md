@@ -1,1 +1,1 @@
-# OJJO
+# Feliks-Harauski-diplom
