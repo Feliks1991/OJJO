@@ -78,10 +78,10 @@ export default function App() {
             <Route path="/products">
               <PageProducts />
             </Route>
-            
+
+            <Redirect to="/main" />
           </GoodsContext.Provider>
 
-          <Redirect to="/main" />
         </Switch>
       </BrowserRouter>
     </ThemeProvider>
