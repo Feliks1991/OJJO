@@ -8,7 +8,7 @@ import Footer from '../sections/Footer';
 export default function PageProducts(){
   return(
     <>
-      <Header mainHeader/>
+      <Header shortHeader/>
       <Products/>
       <Mailing/>
       <Footer/>

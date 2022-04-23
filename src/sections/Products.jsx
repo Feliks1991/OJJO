@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import ProductCard from '../components/ProductCard';
 import Wrapper from '../components/Wrapper';
+import GoodsContext from '../context/GoodsContext';
 
 const ProductsContainer = styled(Wrapper)`
   padding: 100px 0 150px 0;
@@ -102,6 +103,32 @@ export default function Products() {
     },
   ];
 
+  const { cartData, setCartData, likedData, setLikedData } =
+    React.useContext(GoodsContext);
+    
+    React.useEffect(() => {
+      setLikedData(JSON.parse(window.localStorage.getItem('likedData')) || []);
+      setCartData(JSON.parse(window.localStorage.getItem('cartData')) || []);
+    }, []);
+
+  React.useEffect(() => {
+    window.localStorage.setItem('likedData', JSON.stringify(likedData));
+  }, [likedData]);
+
+  React.useEffect(() => {
+    window.localStorage.setItem('cartData', JSON.stringify(cartData));
+  }, [cartData]);
+
+  const dataUpdate = (item, data, setData, dataDirection) => {
+    if (data.find(obj => obj.id === item.id)) {
+      setData(prev => prev.filter(obj => obj.id !== item.id));
+    } else if (dataDirection === 'cartData') {
+      setData(prev => [...prev, Object.assign(item, { count: 1 })]);
+    } else if (dataDirection === 'likedData') {
+      setData(prev => [...prev, item]);
+    }
+  };
+
   return (
     <>
       <ProductsContainer>
@@ -112,6 +139,14 @@ export default function Products() {
               label={item.label}
               producer={item.producer}
               price={item.price}
+              toCart={() =>
+                dataUpdate(item, cartData, setCartData, 'cartData')
+              }
+              toLiked={() =>
+                dataUpdate(item, likedData, setLikedData, 'likedData')
+              }
+              cartDataControl={cartData.find(obj => obj.id === item.id)}
+              likedDataControl={likedData.find(obj => obj.id === item.id)}
             />
           ))}
         </ProductCardContainer>

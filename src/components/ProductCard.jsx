@@ -71,7 +71,6 @@ const ProductCardImage = styled.div`
         display: flex;
         height: 50px;
         width: 50px;
-        background-color: #333333;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -81,7 +80,11 @@ const ProductCardImage = styled.div`
   }
 `;
 
-export default function ProductCard({ src, producer, label, price }) {
+export default function ProductCard({ src, producer, label, price, toCart, toLiked, cartDataControl, likedDataControl}) {
+
+
+
+  
   return (
     <>
       {/* {loading ? (
@@ -103,11 +106,11 @@ export default function ProductCard({ src, producer, label, price }) {
           <ProductCardImage>
             <img src={src} alt={label} />
             <div>
-              <button type="button" href="/">
-                <Icons name="LikedAdd" width="35" height="35" color="white" />
+              <button style={{backgroundColor: likedDataControl ? '#333333' : 'transparent'}} onClick={toLiked} type="button" href="/">
+                <Icons name="LikedAdd" width="35" height="35" color={likedDataControl ? 'white' : '#333333'} />
               </button>
-              <button type="button" href="/">
-                <Icons name="CartAdd" width="35" height="35" color="white" />
+              <button style={{backgroundColor: cartDataControl ? '#333333' : 'transparent'}} onClick={toCart} type="button" href="/">
+                <Icons name="CartAdd" width="35" height="35" color={cartDataControl ? 'white' : '#333333'}/>
               </button>
             </div>
           </ProductCardImage>

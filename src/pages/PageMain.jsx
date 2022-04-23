@@ -5,6 +5,7 @@ import Store from '../sections/Store';
 import HelpfulColumns from '../sections/HelpfulColumns';
 import Mailing from '../sections/Mailing';
 import Footer from '../sections/Footer';
+import OurSocial from '../sections/OurSocial';
 
 export default function PageMain(){
   return(
@@ -13,6 +14,7 @@ export default function PageMain(){
       <GoodsType/>
       <Store/>
       <HelpfulColumns/>
+      <OurSocial/>
       <Mailing/>
       <Footer/>
     </>

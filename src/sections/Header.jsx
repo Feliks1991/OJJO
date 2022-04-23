@@ -1,10 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import Line from '../components/Line';
 import Wrapper from '../components/Wrapper';
 import Center from '../components/Center';
 import Button from '../components/Button';
 import LinkRow from '../components/LinkRow';
+import ModalLiked from '../components/ModalLiked';
+import ModalCart from '../components/ModalCart';
+import ModalEnter from '../components/ModalEnter';
 
 const HeaderContainer = styled(Wrapper)`
   background: #333333;
@@ -48,21 +52,52 @@ const LineStyle = styled(Line)`
   margin: 80px 0 30px 0;
 `;
 
-export default function Header({mainHeader}) {
+export default function Header({ ...props }) {
+  const [modalLikedOpened, setModalLikedOpened] = React.useState(false);
+  const [modalCartOpened, setModalCartOpened] = React.useState(false);
+  const [modalEnterOpened, setModalEnterOpened] = React.useState(false);
+
+  const modalLikedSwitch = () => {
+    setModalLikedOpened(!modalLikedOpened);
+    console.log('Переключатель понравилось');
+  };
+  const modalCartSwitch = () => {
+    setModalCartOpened(!modalCartOpened);
+    console.log('Переключатель корзина');
+  };
+  const modalEnterSwitch = () => {
+    setModalEnterOpened(!modalEnterOpened);
+    console.log('Переключатель вход');
+  };
+
   return (
     <>
-      {mainHeader ? (
+      {modalLikedOpened && <ModalLiked close={modalLikedSwitch} />}
+      {modalCartOpened && <ModalCart close={modalCartSwitch} />}
+      {modalEnterOpened && <ModalEnter close={modalEnterSwitch} />}
+
+      {props.shortHeader ? (
         <HeaderContainer>
-          <LinkRow />
+          <LinkRow
+            openLiked={modalLikedSwitch}
+            openCart={modalCartSwitch}
+            openEnter={modalEnterSwitch}
+          />
         </HeaderContainer>
       ) : (
         <MainHeaderContainer>
-          <LinkRow />
+          <LinkRow
+            openLiked={modalLikedSwitch}
+            openCart={modalCartSwitch}
+            openEnter={modalEnterSwitch}
+          />
           <Center>
             <h1>Долго, дорого, богато!</h1>
-            <Button large dark>
-              каталог изделий
-            </Button>
+            <Link to="/products">
+              <Button large dark>
+                каталог изделий
+              </Button>
+            </Link>
           </Center>
           <LineStyle />
           <Brand>

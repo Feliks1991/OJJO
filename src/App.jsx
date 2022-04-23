@@ -1,7 +1,9 @@
 import React from 'react';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
-// import PageMain from './pages/PageMain';
-import PageProducts from './pages/PageProducts'
+import PageMain from './pages/PageMain';
+import PageProducts from './pages/PageProducts';
+import GoodsContext from './context/GoodsContext';
 
 const GlobalStyle = createGlobalStyle`
 html {
@@ -52,12 +54,36 @@ p{
 `;
 
 export default function App() {
+  const [likedData, setLikedData] = React.useState([]);
+  const [cartData, setCartData] = React.useState([]);
+
   return (
     <ThemeProvider theme={{ fontFamily: 'sans-serif' }}>
       <GlobalStyle />
 
-      {/* <PageMain /> */}
-      <PageProducts />
+      <BrowserRouter>
+        <Switch>
+          <GoodsContext.Provider
+            value={{
+              likedData,
+              setLikedData,
+              cartData,
+              setCartData
+            }}
+          >
+            <Route path="/main">
+              <PageMain />
+            </Route>
+
+            <Route path="/products">
+              <PageProducts />
+            </Route>
+            
+          </GoodsContext.Provider>
+
+          <Redirect to="/main" />
+        </Switch>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }
