@@ -61,16 +61,16 @@ export default function App() {
     <ThemeProvider theme={{ fontFamily: 'sans-serif' }}>
       <GlobalStyle />
 
-      <BrowserRouter>
-        <Switch>
-          <GoodsContext.Provider
-            value={{
-              likedData,
-              setLikedData,
-              cartData,
-              setCartData
-            }}
-          >
+      <GoodsContext.Provider
+        value={{
+          likedData,
+          setLikedData,
+          cartData,
+          setCartData,
+        }}
+      >
+        <BrowserRouter>
+          <Switch>
             <Route path="/main">
               <PageMain />
             </Route>
@@ -80,10 +80,10 @@ export default function App() {
             </Route>
 
             <Redirect to="/main" />
-          </GoodsContext.Provider>
-
-        </Switch>
-      </BrowserRouter>
+          </Switch>
+        </BrowserRouter>
+        
+      </GoodsContext.Provider>
     </ThemeProvider>
   );
 }

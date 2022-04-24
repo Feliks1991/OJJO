@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import GoodsContext from '../context/GoodsContext';
 import Icons from '../svg/Icons';
 import ModalWindow from './ModalWindow';
-import Button from './Button'
+import Button from './Button';
 
 const ModalCartItem = styled.div`
   display: flex;
@@ -38,7 +38,7 @@ const ItemsField = styled.div`
   overflow: auto;
   height: 500px;
   padding: 0 20px 0 20px;
-`
+`;
 
 const Title = styled.div`
   display: flex;
@@ -67,7 +67,7 @@ const QuantityControl = styled.div`
   align-items: center;
   height: 100%;
   position: relative;
-  div{
+  div {
     display: flex;
     align-items: center;
   }
@@ -82,64 +82,58 @@ const QuantityControl = styled.div`
     border-radius: 5px;
     border: solid 1px #bbbbbb;
     text-align: center;
-
   }
-  span{
+  span {
     position: absolute;
-top: 40px;
-font-weight: normal;
+    top: 40px;
+    font-weight: normal;
     font-size: 14px;
     line-height: 15px;
     color: #333333;
   }
 `;
 
-
 const OrderField = styled.div`
-background-image: url(images/Store-bg.png);
+  background-image: url(images/Store-bg.png);
   background-color: #333333;
-width: 100%;
-height: 200px;
-border-radius: 0 0 5px 5px ;
-display: flex;
-align-items: center;
-flex-direction: column ;
-justify-content: center;
-div{
-  border: 1px solid #ffffff;
-  padding: 14px 15px;
+  width: 100%;
+  height: 200px;
+  border-radius: 0 0 5px 5px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   div {
-    background: #ffffff;
-    padding: 20px 22px;
+    border: 1px solid #ffffff;
+    padding: 14px 15px;
+    div {
+      background: #ffffff;
+      padding: 20px 22px;
 
-  input {
-    width: 200px;
-    height: 39px;
-    padding-left: 20px;
-    background: #ffffff;
-    border: 1px solid #d6d6d6;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 16px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(51, 51, 51, 0.5);
+      input {
+        width: 200px;
+        height: 39px;
+        padding-left: 20px;
+        background: #ffffff;
+        border: 1px solid #d6d6d6;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(51, 51, 51, 0.5);
+      }
+    }
   }
-}
-}
-p{
-  font-style: normal;
+  p {
+    font-style: normal;
     font-weight: 600;
     font-size: 24px;
     line-height: 34px;
     color: #ffffff;
     margin-bottom: 15px;
-}
+  }
 `;
-
-
-
-
 
 export default function ModalCart({ ...props }) {
   const { cartData, setCartData } = React.useContext(GoodsContext);
@@ -168,7 +162,9 @@ export default function ModalCart({ ...props }) {
   const handleInputChange = (item, inputValue) => {
     if (!inputValue || inputValue === 0) {
       setCartData(prev =>
-        prev.map(obj => (obj.id === item.id ? { ...obj, count: 1 } : obj))
+        prev.map(obj =>
+          obj.id === item.id ? { ...obj, count: obj.count } : obj
+        )
       );
     } else {
       setCartData(prev =>
@@ -181,9 +177,6 @@ export default function ModalCart({ ...props }) {
 
   return (
     <ModalWindow {...props}>
-
-
-
       <ItemsField>
         {cartData.map(item => (
           <ModalCartItem>
@@ -202,15 +195,19 @@ export default function ModalCart({ ...props }) {
                 <input
                   type="text"
                   value={item.count}
-                  onChange={event => handleInputChange(item, event.target.value)}
+                  onChange={event =>
+                    handleInputChange(item, Number(event.target.value))
+                  }
                 />
                 <button onClick={() => increaseCartCount(item)} type="button">
                   <Icons name="Pluse" width="16" height="16" color="#333333" />
                 </button>
               </div>
-              {item.count>1 && <>
-                <span>x {item.price} ₽</span>
-              </>}
+              {item.count > 1 && (
+                <>
+                  <span>x {item.price} ₽</span>
+                </>
+              )}
             </QuantityControl>
             <p>{item.price * item.count} ₽</p>
             <div>
@@ -220,26 +217,23 @@ export default function ModalCart({ ...props }) {
             </div>
           </ModalCartItem>
         ))}
-        
       </ItemsField>
-
-
       <OrderField>
-
-      <p>
+        <p>
           ИТОГО:
-          {cartData.reduce((sum, current) => sum + (current.price * current.count), 0)} ₽
+          {cartData.reduce(
+            (sum, current) => sum + current.price * current.count,
+            0
+          )}
+          ₽
         </p>
-      <div>
+        <div>
           <div>
             <input type="text" placeholder="Введите промокод" />
-            <Button dark >заказать</Button>
+            <Button dark>заказать</Button>
           </div>
         </div>
-        
-
       </OrderField>
-
     </ModalWindow>
   );
 }

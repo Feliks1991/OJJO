@@ -103,13 +103,12 @@ export default function Products() {
     },
   ];
 
-  const { cartData, setCartData, likedData, setLikedData } =
-    React.useContext(GoodsContext);
-    
-    React.useEffect(() => {
-      setLikedData(JSON.parse(window.localStorage.getItem('likedData')) || []);
-      setCartData(JSON.parse(window.localStorage.getItem('cartData')) || []);
-    }, []);
+  const { cartData, setCartData, likedData, setLikedData } = React.useContext(GoodsContext);
+
+  React.useEffect(() => {
+    setLikedData(JSON.parse(window.localStorage.getItem('likedData')) || []);
+    setCartData(JSON.parse(window.localStorage.getItem('cartData')) || []);
+  }, []);
 
   React.useEffect(() => {
     window.localStorage.setItem('likedData', JSON.stringify(likedData));
@@ -119,7 +118,7 @@ export default function Products() {
     window.localStorage.setItem('cartData', JSON.stringify(cartData));
   }, [cartData]);
 
-  const dataUpdate = (item, data, setData, dataDirection) => {
+  const dataUpdate = async (item, data, setData, dataDirection) => {
     if (data.find(obj => obj.id === item.id)) {
       setData(prev => prev.filter(obj => obj.id !== item.id));
     } else if (dataDirection === 'cartData') {
@@ -139,9 +138,7 @@ export default function Products() {
               label={item.label}
               producer={item.producer}
               price={item.price}
-              toCart={() =>
-                dataUpdate(item, cartData, setCartData, 'cartData')
-              }
+              toCart={() => dataUpdate(item, cartData, setCartData, 'cartData')}
               toLiked={() =>
                 dataUpdate(item, likedData, setLikedData, 'likedData')
               }
